@@ -41,4 +41,4 @@
 
 # Job script
 module load matlab/r2019b
-time matlab -nodisplay -nodesktop -r "main_hctsa_2_compute('HCTSA_train.mat'); exit"
+time matlab -nodisplay -nodesktop -r "add_toolbox; main_hctsa_2_compute('HCTSA_train.mat'); exit"

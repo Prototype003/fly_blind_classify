@@ -6,6 +6,9 @@ function [] = main_hctsa_2_compute(hctsa_mat)
 
 hctsa_dir = 'hctsa_space/';
 
+nCores = feature('numcores');
+parpool(nCores);
+
 tic;
 TS_Compute(true, [], [], [], [hctsa_dir hctsa_mat]);
 toc

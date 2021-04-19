@@ -48,6 +48,8 @@ nCores = feature('numcores');
 parpool(nCores);
 
 parfor ch = 1 : nChannels
+    addpath('../');
+    add_toolbox
     
     % Load HCTSA values for channel
     hctsa = load([source_dir source_prefix '_channel' num2str(ch) '.mat']);

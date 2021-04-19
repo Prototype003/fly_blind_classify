@@ -14,4 +14,3 @@ TS_Compute(true, [], [], [], [hctsa_dir hctsa_mat]);
 toc
 
 end
-

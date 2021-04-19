@@ -14,7 +14,7 @@ out_dir = 'results/';
 source_dir = '../hctsa_space/';
 
 addpath('../');
-add_toolbox
+run(add_toolbox);
 
 %% Load
 
@@ -48,8 +48,6 @@ nCores = feature('numcores');
 parpool(nCores);
 
 parfor ch = 1 : nChannels
-    addpath('../');
-    add_toolbox
     
     % Load HCTSA values for channel
     hctsa = load([source_dir source_prefix '_channel' num2str(ch) '.mat']);

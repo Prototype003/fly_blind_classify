@@ -41,4 +41,4 @@
 
 # Job script
 module load matlab/r2019b
-time matlab -nodisplay -nodesktop -r "add_toolbox; main_nearestMean_crossValidation; exit"
+time matlab -nodisplay -nodesktop -r "main_nearestMean_crossValidation; exit"

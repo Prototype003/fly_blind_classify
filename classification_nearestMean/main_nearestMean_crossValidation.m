@@ -14,7 +14,7 @@ out_dir = 'results/';
 source_dir = '../hctsa_space/';
 
 addpath('../');
-addtoolbox
+add_toolbox
 
 %% Load
 

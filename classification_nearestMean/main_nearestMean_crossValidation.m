@@ -11,10 +11,11 @@ Conduct nearest mean classification on HCTSA features
 source_prefix = 'HCTSA_train';
 
 out_dir = 'results/';
+out_file = 'class_nearestMean_crossValidation';
 source_dir = '../hctsa_space/';
 
 addpath('../');
-run(add_toolbox);
+run('add_toolbox');
 
 %% Load
 
@@ -133,4 +134,8 @@ parfor ch = 1 : nChannels
     
 end
 
-%%
+%% Save
+
+tic;
+save([out_dir out_file], 'thresholds', 'directions', 'accuracies', 'predictions');
+toc

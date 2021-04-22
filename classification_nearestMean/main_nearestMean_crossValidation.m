@@ -15,7 +15,8 @@ out_file = 'class_nearestMean_crossValidation';
 source_dir = '../hctsa_space/';
 
 addpath('../');
-run('add_toolbox');
+here = pwd;
+cd('../'); add_toolbox; cd(here);
 
 %% Load
 
@@ -83,7 +84,7 @@ parfor ch = 1 : nChannels
             train_set = ~test_set;
             
             % Get means for each class
-            centres = zeros(size(classes));
+            centres = NaN(size(classes));
             for c = 1 : length(classes)
                 class_rows = train_set & classes{c};
                 centres(c) = mean(hctsa.TS_DataMat(class_rows, f), 1);

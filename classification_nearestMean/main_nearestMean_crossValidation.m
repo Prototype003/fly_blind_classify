@@ -8,10 +8,13 @@ Conduct nearest mean classification on HCTSA features
 
 %% Settings
 
+%class_type = 'nearestMean'; % nearest mean classification
+class_type = 'nearestMedian'; % nearest median classification
+
 source_prefix = 'HCTSA_train';
 
 out_dir = 'results/';
-out_file = 'class_nearestMean_crossValidation';
+out_file = ['class_' class_type '_crossValidation'];
 source_dir = '../hctsa_space/';
 
 addpath('../');
@@ -87,7 +90,15 @@ parfor ch = 1 : nChannels
             centres = NaN(size(classes));
             for c = 1 : length(classes)
                 class_rows = train_set & classes{c};
-                centres(c) = mean(hctsa.TS_DataMat(class_rows, f), 1);
+                if strcmp(class_type, 'nearestMean')
+                    centres(c) = mean(hctsa.TS_DataMat(class_rows, f), 1);
+                elseif strcmp(class_type, 'nearestMedian')
+                    centres(c) = median(hctsa.TS_DataMat(class_rows, f), 1);
+                end
+            end
+            
+            if any(isnan(centres))
+                x=1;
             end
             
             % Get threshold and direction based on centres

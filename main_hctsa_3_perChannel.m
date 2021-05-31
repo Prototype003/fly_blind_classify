@@ -11,7 +11,7 @@ Exclusion is done per channel
 
 %% Settings
 
-file_prefix = 'HCTSA_train';
+file_prefix = 'HCTSA_train'; % HCTSA_train; HCTSA_validate1; HCTSA_validate2
 file_suffix = '.mat';
 
 out_dir = 'hctsa_space/';
@@ -33,5 +33,38 @@ for ch = 1 : nChannels
         ch_rows,...
         [],...
         [out_dir file_prefix '_' ch_string file_suffix]);
+    toc
+end
+
+%% Re-add special values to TS_DataMat
+% Note HCTSA replaces special values with 0
+%   https://hctsa-users.gitbook.io/hctsa-manual/setup/hctsa_structure#quality-labels
+
+for ch = 1 : nChannels
+    tic;
+    ch_string = ['channel' num2str(ch)];
+    file_string = [out_dir file_prefix '_' ch_string file_suffix];
+    
+    hctsa = matfile(file_string, 'Writable', true);
+    TS_DataMat = hctsa.TS_DataMat;
+    TS_Quality = hctsa.TS_Quality;
+    
+    % "Fatal" errors - treat as NaN
+    TS_DataMat(TS_Quality == 1) = NaN;
+    % Special value NaN
+    TS_DataMat(TS_Quality == 2) = NaN;
+    % Special value Inf
+    TS_DataMat(TS_Quality == 3) = Inf;
+    % Special value -Inf
+    TS_DataMat(TS_Quality == 4) = -Inf;
+    
+    % Check for other cases
+    if any(TS_Quality(:) > 4)
+        tmp = unique(TS_Quality(:));
+        disp([file_string ' TS_Quality ' num2str(tmp)]);
+    end
+    
+    hctsa.TS_DataMat = TS_DataMat;
+    hctsa.TS_Quality = TS_Quality;
     toc
 end

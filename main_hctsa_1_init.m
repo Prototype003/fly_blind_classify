@@ -8,12 +8,12 @@ Extract time series features from fly data using hctsa
 
 %% Settings
 
-out_dir = 'hctsa_space/';
+out_dir = 'hctsa_space_subtractMean_removeLineNoise/';
 
 %% Load
 
 source_dir = 'data/preprocessed/';
-source_file = 'fly_data_removeLineNoise';
+source_file = 'fly_data_subtractMean_removeLineNoise';
 
 loaded = load([source_dir source_file]);
 data = loaded.data;

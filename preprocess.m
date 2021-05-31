@@ -114,9 +114,37 @@ for ep = 1 : size(powers_v, 4)
     title(num2str(ep));
 end
 
-%% Remove line noise
+%% Preprocessing
 
 preprocess_string = ''; % To keep track of preprocessing pipeline
+
+% Processed versions of the data structure
+data_t_proc = data_t;
+data_v_proc = data_v;
+
+%% Subtract mean from each epoch
+
+s_subtractMean = 1;
+
+if s_subtractMean == 1
+    tic;
+    dims = size(data_t_proc);
+    data_mean = mean(data_t_proc, 1);
+    data_mean = repmat(data_mean, [dims(1) ones(1, length(dims)-1)]);
+    data_t_proc = data_t_proc - data_mean;
+    toc
+    
+    tic;
+    dims = size(data_v_proc);
+    data_mean = mean(data_v_proc, 1);
+    data_mean = repmat(data_mean, [dims(1) ones(1, length(dims)-1)]);
+    data_v_proc = data_v_proc - data_mean;
+    toc
+    
+    preprocess_string = [preprocess_string '_subtractMean'];
+end
+
+%% Remove line noise
 
 s_lineNoise = 1;
 
@@ -124,11 +152,11 @@ s_lineNoise = 1;
 if s_lineNoise == 1
     tic;
     % ~103 seconds (tapers = [5 9]; 2.25s epochs)
-    [data_t_proc, data_t_fit] = removeLineNoise(data_t, params); % ~10 seconds (tapers = [3 5])
+    [data_t_proc, data_t_fit] = removeLineNoise(data_t_proc, params); % ~10 seconds (tapers = [3 5])
     toc
     tic;
     % ~227 seconds (tapers [5 9]; 2.25s epochs)
-    [data_v_proc, data_v_fit] = removeLineNoise(data_v, params); % ~21 seconds (tapers = [3 5])
+    [data_v_proc, data_v_fit] = removeLineNoise(data_v_proc, params); % ~21 seconds (tapers = [3 5])
     toc
     
     preprocess_string = [preprocess_string '_removeLineNoise'];
@@ -176,9 +204,9 @@ ch = 15;
 tr = 1;
 
 figure;
-for ep = 1 : size(powers_v, 4)
+for ep = 1 : size(powers_v_proc, 4)
     subplot(6, 10, ep);
-    plot(faxis_v, log(powers_v(:, ch, tr, ep)));
+    plot(faxis_v, log(powers_v_proc(:, ch, tr, ep)));
     
     xlim([40 60]);
     xlim([0 100]);

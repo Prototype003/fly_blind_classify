@@ -93,9 +93,9 @@ parfor ch = 1 : nChannels
             for c = 1 : length(classes)
                 class_rows = train_set & classes{c};
                 if strcmp(class_type, 'nearestMean')
-                    centres(c) = mean(hctsa.TS_DataMat(class_rows, f), 1);
+                    centres(c) = nanmean(hctsa.TS_DataMat(class_rows, f), 1);
                 elseif strcmp(class_type, 'nearestMedian')
-                    centres(c) = median(hctsa.TS_DataMat(class_rows, f), 1);
+                    centres(c) = nanmedian(hctsa.TS_DataMat(class_rows, f), 1);
                 end
             end
             

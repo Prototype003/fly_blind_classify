@@ -18,7 +18,7 @@ out_dir = 'results/';
 out_file = ['class_' class_type '_validate1'];
 
 thresh_dir = 'results/';
-thresh_file = 'class_nearestMean_thresholds';
+thresh_file = ['class_' class_type '_thresholds'];
 
 addpath('../');
 here = pwd;

@@ -14,7 +14,9 @@ Exclusion is done per channel
 file_prefix = 'HCTSA_train'; % HCTSA_train; HCTSA_validate1; HCTSA_validate2
 file_suffix = '.mat';
 
-out_dir = 'hctsa_space/';
+preprocess_string = '_subtractMean_removeLineNoise';
+
+out_dir = ['hctsa_space' preprocess_string '/'];
 
 nChannels = 15; % is there an easy way to get this programmatically instead?
 

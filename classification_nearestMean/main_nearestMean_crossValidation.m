@@ -13,9 +13,11 @@ class_type = 'nearestMedian'; % nearest median classification
 
 source_prefix = 'HCTSA_train';
 
-out_dir = 'results/';
+preprocess_string = '_subtractMean_removeLineNoise';
+
+out_dir = ['results' preprocess_string '/'];
 out_file = ['class_' class_type '_crossValidation'];
-source_dir = '../hctsa_space/';
+source_dir = ['../hctsa_space' preprocess_string '/'];
 
 addpath('../');
 here = pwd;

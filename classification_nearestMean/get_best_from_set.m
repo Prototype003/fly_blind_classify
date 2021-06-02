@@ -34,7 +34,7 @@ hctsa_prefixes = {'train', 'validate1'};
 
 if strcmp(perf_type, 'class_nearestMean') || strcmp(perf_type, 'class_nearestMedian') 
     perf_sets = {'crossValidation', 'validate1_accuracy'};
-elseif strcmp(perf_type, 'consis_nearestMean')
+elseif strcmp(perf_type, 'consis_nearestMedian')
     perf_sets = {'train', 'validate1'};
 end
 
@@ -48,7 +48,7 @@ end
 % Load reference performance data
 source_file = [perf_type '_' reference_set '.mat'];
 acc = load([source_dir source_file]);
-if strcmp(perf_type, 'consis_nearestMean')
+if strcmp(perf_type, 'consis_nearestMedian')
     acc.accuracies = mean(acc.consistencies, 4);
 end
 accuracies = mean(acc.accuracies, 3); % average accuracies across cross-validations
@@ -98,7 +98,7 @@ for d = 1 : length(hctsa_prefixes)
     % Get performance of the feature
     source_file = [perf_type '_' perf_sets{d} '.mat'];
     acc = load([source_dir source_file]);
-    if strcmp(perf_type, 'consis_nearestMean')
+    if strcmp(perf_type, 'consis_nearestMedian')
         acc.accuracies = mean(acc.consistencies, 4);
     end
     tmp = mean(acc.accuracies, 3); % average accuracies across cross-validations

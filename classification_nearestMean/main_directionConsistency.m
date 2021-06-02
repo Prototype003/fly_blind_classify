@@ -11,7 +11,7 @@ Quantify consistency of direction of effect of anesthesia, per fly
 preprocess_string = '_subtractMean_removeLineNoise';
 
 source_dir = ['../hctsa_space' preprocess_string '/'];
-source_prefix = 'train'; % train; validate1
+source_prefix = 'validate1'; % train; validate1
 
 out_dir = ['results' preprocess_string '/'];
 out_file = ['consis_nearestMedian_' source_prefix];
@@ -25,7 +25,7 @@ cd('../'); add_toolbox; cd(here);
 
 %% Keywords for validation datasets
 
-if strcmp(source_prefix, 'HCTSA_validate1')
+if strcmp(source_prefix, 'validate1')
     kw = load([source_dir 'validate1_labels.mat']);
 end
 

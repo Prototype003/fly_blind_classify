@@ -1,4 +1,4 @@
-function [ids_valid, nExclude] = getValidFeatures(TS_DataMat)
+function [ids_valid, nExclude, ids_per_stage] = getValidFeatures(TS_DataMat)
 %GETVALIDFEATURES
 %
 % Exclusion criteria
@@ -11,7 +11,10 @@ function [ids_valid, nExclude] = getValidFeatures(TS_DataMat)
 %   ids_valid = logical vector; 1s indicate valid feature IDs and 0s
 %       indicate feature IDs to exclude
 %   nExclude = vector (1 x stages); each number indicates number of
-%       features removed at each exclusion criterion
+%       additional features removed at each exclusion criterion
+%   ids_per_stage = logical matrix (channels x features x stages);
+%       holds valid features IDs at each stage, independent from previous 
+%       stages
 
 % Get feature IDs with NaN
 ids_nan = isnan(TS_DataMat);
@@ -22,11 +25,12 @@ nExclude(1) = sum(ids_nan);
 ids_const = diff(TS_DataMat, [], 1);
 ids_const(isnan(ids_const)) = 0; % treat nans as diff == 0
 ids_const = all(~ids_const, 1);
-nExclude(2) = sum(ids_nan | ids_const) - sum(ids_nan & ids_const);
+nExclude(2) = sum(ids_nan | ids_const) - sum(~ids_nan & ids_const);
 
 ids_invalid = ids_nan | ids_const;
 
 ids_valid = ~ids_invalid;
 
-end
+ids_per_stage = cat(3, ~ids_nan, ~ids_const);
 
+end

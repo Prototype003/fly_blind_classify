@@ -11,13 +11,15 @@ Apply thresholds obtained from test dataset to validation dataset(s)
 %class_type = 'nearestMean'; % nearest mean classification
 class_type = 'nearestMedian'; % nearest median classification
 
-source_dir = '../hctsa_space/';
+preprocess_string = '_subtractMean_removeLineNoise';
+
+source_dir = ['../hctsa_space' preprocess_string '/'];
 source_prefix = 'HCTSA_validate1';
 
-out_dir = 'results/';
+out_dir = ['results' preprocess_string '/'];
 out_file = ['class_' class_type '_validate1'];
 
-thresh_dir = 'results/';
+thresh_dir = ['results' preprocess_string '/'];
 thresh_file = ['class_' class_type '_thresholds'];
 
 addpath('../');

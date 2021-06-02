@@ -13,13 +13,15 @@ val_set = 'validate1';
 %class_type = 'nearestMean'; % nearest mean classification
 class_type = 'nearestMedian'; % nearest median classification
 
-source_dir = '../hctsa_space/';
+preprocess_string = '_subtractMean_removeLineNoise';
+
+source_dir = ['../hctsa_space' preprocess_string '/'];
 source_prefix = ['HCTSA_' val_set];
 
-pred_dir = 'results/';
+pred_dir = ['results' preprocess_string '/'];
 pred_file = ['class_' class_type '_' val_set];
 
-out_dir = 'results/';
+out_dir = ['results' preprocess_string '/'];
 out_file = ['class_' class_type '_' val_set '_accuracy.mat'];
 
 addpath('../');

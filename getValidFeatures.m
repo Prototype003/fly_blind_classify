@@ -25,7 +25,7 @@ nExclude(1) = sum(ids_nan);
 ids_const = diff(TS_DataMat, [], 1);
 ids_const(isnan(ids_const)) = 0; % treat nans as diff == 0
 ids_const = all(~ids_const, 1);
-nExclude(2) = sum(ids_nan | ids_const) - sum(~ids_nan & ids_const);
+nExclude(2) = sum(~ids_nan & ids_const);
 
 ids_invalid = ids_nan | ids_const;
 

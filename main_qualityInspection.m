@@ -34,7 +34,7 @@ xlabel('feature');
 
 same_thresh = repmat(TS_DataMat(1, :), [size(TS_DataMat, 1) 1]);
 subtracted = TS_DataMat - same_thresh;
-foo_const = all(TS_DataMat == 0, 1);
+foo_const = all(subtracted == 0, 1);
 
 %% Number of features with special cases
 

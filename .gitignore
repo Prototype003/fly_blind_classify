@@ -31,5 +31,8 @@
 # TPM folders
 tpms/*/
 
+# Excel files
+**/*.xlsx
+
 # Pyphi environment
 bin/pyphi_environment/

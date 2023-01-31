@@ -41,6 +41,5 @@
 
 # Job script
 echo "multidose channel ${1}"
-command="add_toolbox; main_hctsa_2_compute('HCTSA_multidose_channel${1}.mat'); exit"
 module load matlab/r2019b
-time matlab -nodisplay -nodesktop -r $command
+time matlab -nodisplay -nodesktop -r "add_toolbox; main_hctsa_2_compute('HCTSA_multidose_channel${1}.mat'); exit"

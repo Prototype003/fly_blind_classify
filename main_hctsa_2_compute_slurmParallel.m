@@ -12,7 +12,7 @@ hctsa_dir = 'hctsa_space_subtractMean_removeLineNoise/';
 pc = parcluster('local');
 
 % explicitly set the JobStorageLocation to the temp directory that was created in your sbatch script
-pc.JobStorageLocation = strcat(getenv('SCRATCH'),'/', getenv('SLURM_JOB_ID'));
+pc.JobStorageLocation = strcat('JobStorageLocation/', getenv('SLURM_JOB_ID'));
 
 % start the matlabpool with maximum available workers
 % control how many workers by setting ntasks in your sbatch script

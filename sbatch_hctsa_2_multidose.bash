@@ -45,9 +45,9 @@ echo "multidose channel ${1}"
 module load matlab/r2019b
 
 # Create a temporary directory on scratch
-mkdir -p $SCRATCH/$SLURM_JOB_ID
+mkdir -p JobStorageLocation/$SLURM_JOB_ID
 
 time matlab -nodisplay -nodesktop -r "add_toolbox; main_hctsa_2_compute_slurmParallel('HCTSA_multidose_channel${1}.mat'); exit"
 
 # Cleanup local work directory
-rm -rf $SCRATCH/$SLURM_JOB_ID
+rm -rf JobStorageLocation/$SLURM_JOB_ID

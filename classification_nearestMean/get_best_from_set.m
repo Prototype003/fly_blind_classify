@@ -71,7 +71,6 @@ fDetails.fID = fID;
 fDetails.fName = fName;
 fDetails.mID = mID;
 fDetails.mName = mName;
-fDetails.perf = perf;
 
 % Get values for each fly
 fly_rows = ones(1, 2); % each row n holds the starting rows of the nth fly for each condition
@@ -105,6 +104,7 @@ for d = 1 : length(hctsa_prefixes)
     perf(d) = tmp(ch, fID);
     
 end
+fDetails.perf = perf;
 
 % Combine classes to scale altogether
 cond_rows = [0 cumsum(cellfun(@length, fly_vals))]; % each gives the last row in each class

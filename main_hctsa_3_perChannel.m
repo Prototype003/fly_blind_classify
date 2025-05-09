@@ -11,7 +11,7 @@ Exclusion is done per channel
 
 %% Settings
 
-file_prefix = 'HCTSA_train'; % HCTSA_train; HCTSA_validate1; HCTSA_validate2
+file_prefix = 'HCTSA_sleep'; % HCTSA_train; HCTSA_validate1; HCTSA_validate2
 file_suffix = '.mat';
 
 preprocess_string = '_subtractMean_removeLineNoise';
@@ -21,21 +21,28 @@ out_dir = ['hctsa_space' preprocess_string '/'];
 nChannels = 15; % is there an easy way to get this programmatically instead?
 
 %% Separate into channels
+% Do not run this section for multidose dataset
+%   Because the files were already split per channels already, before
+%   HCTSA computation
 
-% Filter out sub-file for each channel, containing only values for that
-%   channel
+if ~strcmp(file_prefix, 'HCTSA_multidose')
+    
+    % Filter out sub-file for each channel, containing only values for that
+    %   channel
+    
+    % Separate out channels into separate HCTSA files
+    for ch = 1 : nChannels
+        tic;
+        ch_string = ['channel' num2str(ch)];
+        ch_rows = TS_GetIDs(ch_string, [out_dir file_prefix file_suffix], 'ts');
+        TS_FilterData(...
+            [out_dir file_prefix file_suffix],...
+            ch_rows,...
+            [],...
+            [out_dir file_prefix '_' ch_string file_suffix]);
+        toc
+    end
 
-% Separate out channels into separate HCTSA files
-for ch = 1 : nChannels
-    tic;
-    ch_string = ['channel' num2str(ch)];
-    ch_rows = TS_GetIDs(ch_string, [out_dir file_prefix file_suffix], 'ts');
-    TS_FilterData(...
-        [out_dir file_prefix file_suffix],...
-        ch_rows,...
-        [],...
-        [out_dir file_prefix '_' ch_string file_suffix]);
-    toc
 end
 
 %% Re-add special values to TS_DataMat
@@ -63,7 +70,7 @@ for ch = 1 : nChannels
     % Check for other cases
     if any(TS_Quality(:) > 4)
         tmp = unique(TS_Quality(:));
-        disp([file_string ' TS_Quality ' num2str(tmp)]);
+        %disp([file_string ' TS_Quality ' num2str(tmp)]);
     end
     
     hctsa.TS_DataMat = TS_DataMat;

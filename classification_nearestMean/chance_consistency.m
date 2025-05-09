@@ -9,12 +9,13 @@ Get chance accuracy distribution
 %% Settings
 
 class_set = 'train';
-class_set = 'validate1';
+%class_set = 'validate1';
 
-source_file = ['consis_nearestMean_' class_set '.mat'];
-source_dir = 'results/';
+preprocess_string = '_subtractMean_removeLineNoise';
+source_file = ['consis_nearestMedian_' class_set '.mat'];
+source_dir = ['results' preprocess_string '/'];
 
-out_dir = 'results/';
+out_dir = source_dir;
 out_file = ['consis_random_' class_set '.mat'];
 
 hctsa_prefix = '../hctsa_space/HCTSA_train';

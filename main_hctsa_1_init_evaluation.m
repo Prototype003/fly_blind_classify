@@ -21,8 +21,9 @@ data = loaded.data;
 %% Multidose
 
 datasets = {'multidose', 'singledose', 'sleep'};
+datasets = {'sleep'};
 
-for dset = length(datasets)-2 : -1 : 1
+for dset = 1 : length(datasets)
     
     timeSeriesData = data.(datasets{dset}).data;
     labels = data.(datasets{dset}).labels;
@@ -33,6 +34,6 @@ for dset = length(datasets)-2 : -1 : 1
     TS_Init([out_dir datasets{dset} '.mat'], [], [], [false, true, false], [out_dir 'HCTSA_' datasets{dset} '.mat']);
     toc
     
-    disp([datasets{dset} 'done']);
+    disp([datasets{dset} ' done']);
     
 end

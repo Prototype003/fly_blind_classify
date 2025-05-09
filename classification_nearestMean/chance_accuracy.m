@@ -11,10 +11,12 @@ Get chance accuracy distribution
 class_set = 'crossValidation';
 %class_set = 'validate1_accuracy';
 
-source_file = ['class_nearestMean_' class_set '.mat'];
-source_dir = 'results/';
+preprocess_string = '_subtractMean_removeLineNoise';
 
-out_dir = 'results/';
+source_file = ['class_nearestMedian_' class_set '.mat'];
+source_dir = ['results' preprocess_string '/'];
+
+out_dir = source_dire;
 out_file = ['class_random_' class_set '.mat'];
 
 hctsa_prefix = '../hctsa_space/HCTSA_train';

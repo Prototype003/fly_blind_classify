@@ -99,6 +99,7 @@ tlength = 1500;
 window = (1:tlength);
 tseries = data_v(window, ch, tr);
 %tseries = detrend(tseries);
+tseries = tseries - mean(tseries);
 
 figure;
 

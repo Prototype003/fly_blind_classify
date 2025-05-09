@@ -9,7 +9,7 @@
 %% Settings
 
 preprocess_string = '_subtractMean_removeLineNoise';
-source_prefix = 'sleep';
+source_prefix = 'train';
 
 source_dir = ['hctsa_space' preprocess_string '/'];
 source_file = ['HCTSA_' source_prefix '_channel6.mat']; % HCTSA_train.mat; HCTSA_validate1.mat;

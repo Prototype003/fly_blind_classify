@@ -9,6 +9,7 @@ Apply thresholds obtained from test dataset to validation dataset(s)
 %% Settings
 
 val_set = 'validate1';
+val_string = 'validate1BatchNormalised';
 
 %class_type = 'nearestMean'; % nearest mean classification
 class_type = 'nearestMedian'; % nearest median classification
@@ -19,10 +20,10 @@ source_dir = ['../hctsa_space' preprocess_string '/'];
 source_prefix = ['HCTSA_' val_set];
 
 pred_dir = ['results' preprocess_string '/'];
-pred_file = ['class_' class_type '_' val_set];
+pred_file = ['class_' class_type '_' val_string];
 
 out_dir = ['results' preprocess_string '/'];
-out_file = ['class_' class_type '_' val_set '_accuracy.mat'];
+out_file = ['class_' class_type '_' val_string '_accuracy.mat'];
 
 addpath('../');
 here = pwd;

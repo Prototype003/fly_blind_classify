@@ -1,18 +1,18 @@
-function [performances, performances_random, sig, ps, ps_fdr, sig_thresh, sig_thresh_fdr] = get_sig_features(perf_type, data_set, ch_valid_features, preprocess_string)
+function [performances, performances_random, sig, ps, ps_fdr, sig_thresh, sig_thresh_fdr] = get_sig_features(perf_type, data_set, valid_features, preprocess_string)
 % Get features which perform significantly better than chance
 % Conducts FDR correction for multiple corrections, on valid features
 %
 % Inputs:
 %   perf_type = 'nearestMean' or 'nearestMedian' or 'consis'
 %   data_type = 'train' or 'validate1'
-%   ch_valid_features = logical matrix (channels x features); 1/0 for
+%   valid_features = logical matrix (channels x features); 1/0 for
 %       valid/invalid feature for the channel
 % Outputs
 %   performances = matrix (channels x features); accuracy/consistencies
 %   performances_random = matrix (channels x features);
 %   sig = logical matrix (channels x features)
 %   ps = matrix (channels x features); holds uncorrected p-values
-%   ps_fdr = matrix (channels x features); holds corrected p-values
+%   ps_fdr = matrix (channels); holds corrected p-value thresholds
 %   sig_thresh = threshold value for p < .05, uncorrected across all
 %       features
 %   sig_thresh_fdr = vector (channels); holds threshold values for each
@@ -29,6 +29,11 @@ switch(perf_type)
             case 'validate1'
                 data_string = 'validate1_accuracy';
                 hctsa_string = 'HCTSA_validate1';
+            case 'validate1BatchNormalised'
+                % Note - random classification is a copy of that for
+                %   validate1
+                data_string = 'validate1BatchNormalised_accuracy';
+                hctsa_string = 'HCTSA_validate1';
         end
     case 'consis'
         perf_string = 'consis_nearestMedian';
@@ -39,16 +44,22 @@ switch(perf_type)
             case 'validate1'
                 data_string = 'validate1';
                 hctsa_string = 'HCTSA_validate1';
+            case 'validate1BatchNormalised'
+                % Note - this is the same case as 'validate1'
+                data_string = 'validate1';
+                hctsa_string = 'HCTSA_validate1';
         end      
 end
 
 % File locations
 source_dir = ['results' preprocess_string '/'];
 source_file = [perf_string '_' data_string '.mat'];
-hctsa_prefix = ['../hctsa_space/' hctsa_string];
+[filepath, filename, ext] = fileparts(mfilename('fullpath')); % files relative to this function file
+%hctsa_prefix = ['../hctsa_space/' hctsa_string];
 
 % Load performance files
-perf = load([source_dir source_file]);
+%perf = load([source_dir source_file]);
+perf = load(fullfile(filepath, source_dir, source_file));
 switch(perf_type)
     case {'nearestMedian', 'nearestMean'}
         % average across cross-validations
@@ -68,7 +79,7 @@ switch(perf_type)
         rand_string = 'consis_random';
 end
 rand_file = [rand_string '_' data_string];
-perf_random = load([source_dir rand_file]);
+perf_random = load(fullfile(filepath, source_dir, rand_file));
 switch(perf_type)
     case {'nearestMedian', 'nearestMean'}
         performances_random = perf_random.accuracies_random;
@@ -86,7 +97,7 @@ alpha = 0.05;
 q = 0.05;
 
 % Get threshold from chance distribution
-chance_dist = performances_random(1, :);
+chance_dist = performances_random(1, :); % just use the same chance distribution for all channels
 sig_thresh = prctile(chance_dist, (1-alpha)*100); % 95%tile -> alpha = 0.05
 
 % Compare each feature to threshold, get p-value
@@ -106,7 +117,7 @@ sig_thresh_fdr = nan(size(ps_fdr));
 for ch = 1 : size(performances, 1)
     
     % FDR
-    [pID, pN] = FDR(ps(ch, find(ch_valid_features(ch, :))), q);
+    [pID, pN] = FDR(ps(ch, find(valid_features(ch, :))), q);
     ps_fdr(ch) = pID; % nonparametric
     
     % Get corresponding accuracy

@@ -8,6 +8,9 @@
 
 # Figures
 **/figures*
+**/*.png
+**/*.pdf
+**/*.ai
 
 # Windows
 **/*.db
@@ -27,6 +30,7 @@
 # Data
 **/*.tar.gz
 **/*.tar
+**/*.zip
 
 # TPM folders
 tpms/*/

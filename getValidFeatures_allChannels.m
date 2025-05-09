@@ -3,7 +3,7 @@ function [ch_valid_features, ch_excluded, valid_perStage] = getValidFeatures_all
 %   Gets valid features for all channels
 %
 % Inputs:
-%   data_set = 'train' or 'validate1'
+%   data_set = 'train' or 'validate1'; 'multidose', 'singledose', 'sleep'
 %   preprocess_string = string; preprocessing stream identifier
 % Outputs:
 %   ch_valid_features = matrix (channels x features)

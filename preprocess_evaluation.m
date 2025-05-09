@@ -36,7 +36,7 @@ data = struct();
 % For keeping track if the datasets have been rereferenced
 %   0 = not rereferenced; 1 = rereferenced
 %   Position 1 is for single-dosage set; position 2 is for sleep set
-reref_flags = nan(2, 1);
+reref_flag = nan(2, 1);
 
 %% Load data - Multi-dosage flies
 
@@ -135,8 +135,10 @@ condition_fields = {'TrialType', 'trial_type', 'status'};
 multi_segments = [1 0 0];
 
 data_split = struct();
+data_split = data;
 for dset = 1 : length(process_sets)
     
+    data_split.(process_sets{dset}) = struct();
     data_split.(process_sets{dset}).data = {};
     data_split.(process_sets{dset}).labels = {};
     data_split.(process_sets{dset}).keywords = {};
@@ -216,7 +218,8 @@ data = data_split;
 
 row = 500;
 
-[powers, faxis] = getPower(data_split.sleep.data{row}, params);
+%[powers, faxis] = getPower(data_split.sleep.data{row}, params);
+[powers, faxis] = getPower(data_split.singledose.data{row}, params);
 
 figure;
 plot(faxis, mean(log(powers), 2));
@@ -269,11 +272,13 @@ end
 
 row = 500;
 
-[powers, faxis] = getPower(data.sleep.data{row}, params);
+%[powers, faxis] = getPower(data.sleep.data{row}, params);
+[powers, faxis] = getPower(data.singledose.data{row}, params);
 
 figure;
 plot(faxis, mean(log(powers), 2));
 xlim([0 100]);
+
 
 %% Save
 

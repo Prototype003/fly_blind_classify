@@ -10,14 +10,15 @@ Apply thresholds obtained from test dataset to validation dataset(s)
 
 %class_type = 'nearestMean'; % nearest mean classification
 class_type = 'nearestMedian'; % nearest median classification
+validate_set = 'sleep'; % validate1; multidose; singledose, sleep
 
 preprocess_string = '_subtractMean_removeLineNoise';
 
 source_dir = ['../hctsa_space' preprocess_string '/'];
-source_prefix = 'HCTSA_validate1';
+source_prefix = ['HCTSA_' validate_set];
 
 out_dir = ['results' preprocess_string '/'];
-out_file = ['class_' class_type '_validate1'];
+out_file = ['class_' class_type '_' validate_set];
 
 thresh_dir = ['results' preprocess_string '/'];
 thresh_file = ['class_' class_type '_thresholds'];
@@ -70,6 +71,8 @@ for ch = 1 : size(thresholds, 1)
 end
 
 %% Save
+
+predictions = int8(predictions);
 
 tic;
 save([out_dir out_file], 'predictions');

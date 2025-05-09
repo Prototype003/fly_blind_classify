@@ -204,7 +204,7 @@ end
 neg = viridis(256);
 pos = inferno(256);
 negPos_map = cat(1, flipud(neg(1:128, :)), pos(129:end, :));
-negPos_map = flipud(cbrewer('div', 'RdBu', 100));
+negPos_map = flipud(cbrewer('div', 'RdBu', 100)); negPos_map(negPos_map < 0) = 0;
 
 % Visualise difference values (vector)
 plot_pos = [91 100];
